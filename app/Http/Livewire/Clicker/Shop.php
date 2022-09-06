@@ -61,7 +61,7 @@ class Shop extends Component
                     $user->b_autoClicker += 1;
                     $user->save();
                 } else {
-                    return $this->message = "You don't have enought money to afford this!";
+                    return $this->autoclicker_message = "You don't have enought money to afford this!";
                 }
                 break;
             case 's':
@@ -71,7 +71,7 @@ class Shop extends Component
                     $user->s_autoClicker += 1;
                     $user->save();
                 } else {
-                    return $this->message = "You don't have enought money to afford this!";
+                    return $this->autoclicker_message = "You don't have enought money to afford this!";
                 }
                 break;
                 break;
@@ -82,7 +82,7 @@ class Shop extends Component
                     $user->g_autoClicker += 1;
                     $user->save();
                 } else {
-                    return $this->message = "You don't have enought money to afford this!";
+                    return $this->autoclicker_message = "You don't have enought money to afford this!";
                 }
                 break;
         }
