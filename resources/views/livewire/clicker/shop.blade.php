@@ -29,7 +29,7 @@
 
     <header class="text-2xl mb-0 mt-5 text-violet-700">Auto clickers</header>
     <info class="text-xs mb-3 text-sky-500">(Every auto clicker will increase your income per time)</info>
-    @isset($message)
+    @isset($autoclicker_message)
         <br>
         <message class="text-xl text-red-500">{{ $autoclicker_message }} </message>
     @endisset
@@ -51,6 +51,23 @@
             <p>+5$</p>
             <p>x{{ $g_autoClicker }}</p>
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  wire:click="autoClicker('g')">{{ $g_aprice }}$</button>
+        </div>
+    </div>
+    <header class="text-2xl mb-0 mt-5 text-rose-300">Upgrades</header>
+    @isset($upgrade_message )
+        <br>
+        <message class="text-xl text-red-500">{{ $upgrade_message }} </message>
+    @endisset
+    <div class="grid grid-cols-3 gap-4 divide-x">
+        <div class="text-xl">
+            <p class="text-fuchsia-600">Auto clicker timer</p>
+            @if ($ac_timer_lvl != 'MAX')
+                <p>-2sec</p>
+            @endif
+            <p>LV. {{ $ac_timer_lvl }}</p>
+            @if ($ac_timer_lvl != 'MAX')
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  wire:click="ac_timer">{{ $ac_timer_price }}$</button>
+            @endif
         </div>
     </div>
 </div>

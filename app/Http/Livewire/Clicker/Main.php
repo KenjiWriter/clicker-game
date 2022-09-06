@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Main extends Component
 {
-    public $click_power, $money, $money_per_time, $money_timer;
+    public $click_power, $money, $money_per_time, $clicker_timer;
     public function clickFunction()
     {
         $user = User::find(auth()->user()->id);
@@ -26,7 +26,7 @@ class Main extends Component
         $this->click_power = $user->click_power;
         $this->money = $user->money;
         $this->money_per_time = $user->money_per_time;
-        $this->money_timer = $user->money_timer;
+        $this->clicker_timer = $user->clicker_timer;
         return view('livewire.clicker.main');
     }
 }

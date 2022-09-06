@@ -9,7 +9,8 @@ class Shop extends Component
 {
     public $click_power, $money;
     public $b_cursor, $b_cprice, $s_ccursor, $s_cprice, $g_ccursor, $g_cprice, $message,
-            $b_autoClicker, $s_autoClicker, $g_autoClicker, $b_aprice, $s_aprice, $g_aprice, $autoclicker_message;
+            $b_autoClicker, $s_autoClicker, $g_autoClicker, $b_aprice, $s_aprice, $g_aprice, $autoclicker_message,
+            $ac_timer_lvl, $ac_timer_price, $upgrade_message;
 
     public function cursor($grade)
     {
@@ -87,6 +88,23 @@ class Shop extends Component
         }
     }
 
+    public function ac_timer()
+    {
+        $user = User::find(auth()->user()->id);
+        $money = $user->money;
+        if($this->ac_timer_lvl != 'MAX') {
+            if($money >= $this->ac_timer_price) {
+                $user->clicker_timer -= 2;
+                $user->money -= $this->ac_timer_price;
+                $user->save();
+            } else {
+                $this->upgrade_message = "You don't have enought money to afford this!";
+            }
+        } else {
+            $this->upgrade_message = "You already reached max level of this upgrade!";
+        }
+    }
+
     public function render()
     {
         $user = User::find(auth()->user()->id);
@@ -99,6 +117,8 @@ class Shop extends Component
         $this->b_autoClicker = $user->b_autoClicker;
         $this->s_autoClicker = $user->s_autoClicker;
         $this->g_autoClicker = $user->g_autoClicker;
+
+        $ac_timer = $user->clicker_timer;
 
         if($user->b_cursor == 0) {
             $this->b_cprice = 20;
@@ -134,6 +154,24 @@ class Shop extends Component
             $this->g_aprice = 3000;
         } else {
             $this->g_aprice = (3000*$user->g_autoClicker)*2 ;
+        }
+
+        switch($ac_timer) {
+            case 5:
+                $this->ac_timer_lvl = '1';
+                $this->ac_timer_price = 10000;
+                break;
+            case 3:
+                $this->ac_timer_lvl = '2';
+                $this->ac_timer_price = 15000;
+                break;
+            case 1:
+                $this->ac_timer_lvl = 'MAX';
+                $this->ac_timer_price = 'MAX';
+                break;
+            default:
+                break;
+                
         }
         return view('livewire.clicker.shop');
     }
