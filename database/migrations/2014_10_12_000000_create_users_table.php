@@ -19,9 +19,14 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->float('money', 8, 2)->nullable()->default(0);
             $table->integer('click_power')->default(1);
+            $table->integer('money_timer')->default(5);
+            $table->float('money_per_time', 8, 2)->default(0);
             $table->integer('b_cursor')->default(0);
             $table->integer('s_cursor')->default(0);
             $table->integer('g_cursor')->default(0);
+            $table->integer('b_autoClicker')->default(0);
+            $table->integer('s_autoClicker')->default(0);
+            $table->integer('g_autoClicker')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
