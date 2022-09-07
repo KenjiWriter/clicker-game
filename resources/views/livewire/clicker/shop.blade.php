@@ -1,6 +1,6 @@
 <div>
     <stats> CP: {{ $click_power }} | Money: {{ $money }}</stats>
-    <header class="text-2xl mb-0 text-lime-500">Cursors</header>
+    <header class="text-4xl mb-0 text-lime-500">Cursors</header>
     <info class="text-xs mb-3 text-sky-500">(Every cursor will incresse your clicking power)</info>
     @isset($message)
         <br>
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <header class="text-2xl mb-0 mt-5 text-violet-700">Auto clickers</header>
+    <header class="text-4xl mb-0 mt-5 text-violet-700">Auto clickers</header>
     <info class="text-xs mb-3 text-sky-500">(Every auto clicker will increase your income per time)</info>
     @isset($autoclicker_message)
         <br>
@@ -53,7 +53,7 @@
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  wire:click="autoClicker('g')">{{ $g_aprice }}$</button>
         </div>
     </div>
-    <header class="text-2xl mb-0 mt-5 text-rose-300">Upgrades</header>
+    <header class="text-4xl mb-0 mt-5 text-rose-300 ">Upgrades</header>
     @isset($upgrade_message )
         <br>
         <message class="text-xl text-red-500">{{ $upgrade_message }} </message>
@@ -68,6 +68,18 @@
             @if ($ac_timer_lvl != 'MAX')
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  wire:click="ac_timer">{{ $ac_timer_price }}$</button>
             @endif
+        </div>
+        <div class="text-xl">
+            <p class="text-red-700">Clicker multiplier skill</p>
+            <p>LV. {{ $clicker_skill_lvl }}</p>
+            <p>Multiplier x{{ $clicker_skill_multiplier }}</p>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  wire:click="skill('clicker')">{{ $clicker_skill_price }}$</button>
+        </div>
+        <div class="text-xl">
+            <p class="text-orange-500">Pasive income multiplier skill</p>
+            <p>LV. {{ $pasive_skill_lvl }}</p>
+            <p>Multiplier x{{ $pasive_skill_multiplier }}</p>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"  wire:click="skill('pasive')">{{ $pasive_skill_price }}$</button>
         </div>
     </div>
 </div>

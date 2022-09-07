@@ -10,16 +10,17 @@ class Shop extends Component
     public $click_power, $money;
     public $b_cursor, $b_cprice, $s_ccursor, $s_cprice, $g_ccursor, $g_cprice, $message,
             $b_autoClicker, $s_autoClicker, $g_autoClicker, $b_aprice, $s_aprice, $g_aprice, $autoclicker_message,
-            $ac_timer_lvl, $ac_timer_price, $upgrade_message;
+            $ac_timer_lvl, $ac_timer_price, $upgrade_message,
+            $clicker_skill_lvl, $pasive_skill_lvl, $clicker_skill_multiplier, $pasive_skill_multiplier, $clicker_skill_price, $pasive_skill_price;
 
     public function cursor($grade)
     {
         $user = User::find(auth()->user()->id);
         switch($grade){
             case 'b':
-                if($user->money >= $this->b_price) {
+                if($user->money >= $this->b_cprice) {
                     $user->click_power += 1;
-                    $user->money -= $this->b_price;
+                    $user->money -= $this->b_cprice;
                     $user->b_cursor += 1;
                     $user->save();
                 } else {
@@ -27,9 +28,9 @@ class Shop extends Component
                 }
                 break;
             case 's':
-                if($user->money >= $this->s_price) {
+                if($user->money >= $this->s_cprice) {
                     $user->click_power += 20;
-                    $user->money -= $this->s_price;
+                    $user->money -= $this->s_cprice;
                     $user->s_cursor += 1;
                     $user->save();
                 } else {
@@ -38,9 +39,9 @@ class Shop extends Component
                 break;
                 break;
             case 'g':
-                if($user->money >= $this->g_price) {
+                if($user->money >= $this->g_cprice) {
                     $user->click_power += 50;
-                    $user->money -= $this->g_price;
+                    $user->money -= $this->g_cprice;
                     $user->g_cursor += 1;
                     $user->save();
                 } else {
@@ -87,6 +88,40 @@ class Shop extends Component
                 break;
         }
     }
+    public function skill($skill)
+    {
+        $user = User::find(auth()->user()->id);
+        switch($skill) {
+            case 'clicker':
+                if($this->clicker_skill_lvl != 10) {
+                    if($user->money >= $this->clicker_skill_price) {
+                        $user->click_skill += 1;
+                        $user->money -= $this->clicker_skill_price;
+                        $user->save();
+                    } else {
+                        $this->upgrade_message = "You don't have enought money to afford this!";
+                    }
+                } else {
+                    $this->upgrade_message = "You already reached max level of this upgrade!";
+                }
+                break;
+            case 'pasive':
+                if($this->pasive_skill_lvl != 10) {
+                    if($user->money >= $this->pasive_skill_price) {
+                        $user->time_skill += 1;
+                        $user->money -= $this->pasive_skill_price;
+                        $user->save();
+                    } else {
+                        $this->upgrade_message = "You don't have enought money to afford this!";
+                    }
+                } else {
+                    $this->upgrade_message = "You already reached max level of this upgrade!";
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
     public function ac_timer()
     {
@@ -117,6 +152,25 @@ class Shop extends Component
         $this->b_autoClicker = $user->b_autoClicker;
         $this->s_autoClicker = $user->s_autoClicker;
         $this->g_autoClicker = $user->g_autoClicker;
+
+        $this->clicker_skill_lvl = $user->click_skill;
+        $this->pasive_skill_lvl = $user->time_skill;
+
+        if($this->clicker_skill_lvl == 0) {
+            $this->clicker_skill_multiplier = 0;
+            $this->clicker_skill_price = 20000;
+        } else {
+            $this->clicker_skill_price = 20000+($this->clicker_skill_lvl*5000);
+            $this->clicker_skill_multiplier = 1+(0.1*$this->clicker_skill_lvl);
+        }
+
+        if($this->pasive_skill_lvl == 0) {
+            $this->pasive_skill_multiplier = 0;
+            $this->pasive_skill_price = 20000;
+        } else {
+            $this->pasive_skill_price = 20000+($this->pasive_skill_lvl*5000);
+            $this->pasive_skill_multiplier = 1+(0.1*$this->pasive_skill_lvl);
+        }
 
         $ac_timer = $user->clicker_timer;
 

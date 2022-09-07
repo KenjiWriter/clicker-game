@@ -27,6 +27,8 @@ return new class extends Migration
             $table->integer('b_autoClicker')->default(0);
             $table->integer('s_autoClicker')->default(0);
             $table->integer('g_autoClicker')->default(0);
+            $table->integer('click_skill')->default(0);
+            $table->integer('time_skill')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
