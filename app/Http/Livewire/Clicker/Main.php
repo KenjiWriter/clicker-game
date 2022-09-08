@@ -17,6 +17,8 @@ class Main extends Component
         }
         $user = User::find(auth()->user()->id);
         $user->money += $this->click_power;
+        $user->total_clicks += 1;
+        $user->total_money += $this->click_power;
         $user->save();
     }
     public function auto_clicker()
@@ -26,6 +28,7 @@ class Main extends Component
         }
         $user = User::find(auth()->user()->id);
         $user->money += $this->money_per_time;
+        $user->total_money += $this->money_per_time;
         $user->save();
     }
 

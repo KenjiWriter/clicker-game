@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->float('money', 8, 2)->nullable()->default(0);
+            $table->float('total_money', 8, 2)->nullable()->default(0);
+            $table->int('total_clicks')->nullable()->default(0);
             $table->integer('click_power')->default(1);
             $table->integer('money_timer')->default(5);
             $table->float('money_per_time', 8, 2)->default(0);
@@ -29,6 +31,10 @@ return new class extends Migration
             $table->integer('g_autoClicker')->default(0);
             $table->integer('click_skill')->default(0);
             $table->integer('time_skill')->default(0);
+            $table->integer('click_achievement')->default(0);
+            $table->integer('money_achievement')->default(0);
+            $table->integer('cp_achievement')->default(0);
+            $table->integer('cps_achievement')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

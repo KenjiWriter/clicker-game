@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('shop')" :active="request()->routeIs('shop')">
                         {{ __('Shop') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('achievements')" :active="request()->routeIs('achievements')">
+                        {{ __('Achievements') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -73,6 +76,11 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('shop')" :active="request()->routeIs('shop')">
                 {{ __('Shop') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('achievements')" :active="request()->routeIs('achievements')">
+                {{ __('Achievements') }}
             </x-responsive-nav-link>
         </div>
 
