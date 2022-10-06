@@ -127,6 +127,30 @@
                     @endif
                 </td>
             </tr>
+            <tr class="bg-white border-b">
+                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                    Demon hunter
+                </th>
+                <td class="py-4 px-6">
+                    Complited floors in dunegeon mode
+                </td>
+                <td class="py-4 px-6">
+                    {{ $dungeon_achievement+1}}
+                </td>
+                <td>
+                    {{ $dungeon_achievement_reward }}CP
+                </td>
+                <td>
+                    @if ($dungeon_achievement_needed <= $dungeon)
+                        <form action="{{ route('achievement.reward', 'dungeon') }}" method="POST">
+                            @csrf
+                            <input type="submit" value="Colect" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        </form>
+                    @else
+                        {{ $dungeon }}/{{ $dungeon_achievement_needed }} ({{ round(($dungeon/$dungeon_achievement_needed)*100, 2) }}%)
+                    @endif
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

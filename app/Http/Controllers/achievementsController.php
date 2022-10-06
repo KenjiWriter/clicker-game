@@ -103,6 +103,30 @@ class achievementsController extends Controller
         return $data;
     }
 
+    public function dungeon_achievement($achievement_stage)
+    {
+        switch($achievement_stage) {
+            case(0):
+                $dungeon_achievement_needed = 10;
+                $dungeon_achievement_reward = 10;
+                break;
+            case(1):
+                $dungeon_achievement_needed = 20;
+                $dungeon_achievement_reward = 50;
+                break;
+            case(2):
+                $dungeon_achievement_needed = 30;
+                $dungeon_achievement_reward = 50;
+                break;
+            case(3):
+                $dungeon_achievement_needed = 40;
+                $dungeon_achievement_reward = 100;
+                break;
+        }
+        $data = ['dungeon_achievement_needed' => $dungeon_achievement_needed, 'dungeon_achievement_reward' => $dungeon_achievement_reward];
+        return $data;
+    }
+
     public function index()
     {
         $user = User::find(auth()->user()->id);
@@ -126,6 +150,11 @@ class achievementsController extends Controller
         $cps_achievement_needed = $cps_achievement_values['cps_achievement_needed'];
         $cps_achievement_reward = $cps_achievement_values['cps_achievement_reward'];
 
+        $dungeon_achievement = $user->dungeon_achievement;
+        $dungeon_achievement_values = $this->dungeon_achievement($dungeon_achievement);
+        $dungeon_achievement_needed = $dungeon_achievement_values['dungeon_achievement_needed'];
+        $dungeon_achievement_reward = $dungeon_achievement_values['dungeon_achievement_reward'];
+
         return view('achievements.index', [
             'click_achievement' => $click_achievement,
             'click_achievement_needed' => $click_achievement_needed,
@@ -146,6 +175,11 @@ class achievementsController extends Controller
             'cps_achievement_needed' => $cps_achievement_needed,
             'cps' => $user->money_per_time,
             'cps_achievement_reward' => $cps_achievement_reward,
+
+            'dungeon_achievement' => $dungeon_achievement,
+            'dungeon_achievement_needed' => $dungeon_achievement_needed,
+            'dungeon' => $user->dungeon_lvl-1,
+            'dungeon_achievement_reward' => $dungeon_achievement_reward,
         ]);
     }
 
@@ -220,6 +254,23 @@ class achievementsController extends Controller
                 }
             } else {
                 return back()->with('message', "You already completed all CPS achivments!");
+            }
+        } elseif ($reward === 'dungeon') {
+            $dungeon_achievement = $user->cps_achievement; 
+            if($dungeon_achievement != 4) {
+                $dungeon_achievement_values = $this->dungeon_achievement($dungeon_achievement);
+                $dungeon_achievement_needed = $dungeon_achievement_values['dungeon_achievement_needed'];
+                $dungeon_achievement_reward = $dungeon_achievement_values['dungeon_achievement_reward'];
+                if($user->money_per_time >= $dungeon_achievement_needed) {
+                    $user->dungeon_achievement += 1;
+                    $user->click_power += $dungeon_achievement_reward;
+                    $user->save();
+                    return back();
+                } else {
+                    return back()->with('message', "You didn't pass this floor yet!");
+                }
+            } else {
+                return back()->with('message', "You already completed all dungeon achivments!");
             }
         }
     }

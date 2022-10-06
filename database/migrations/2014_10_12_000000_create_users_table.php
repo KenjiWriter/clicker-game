@@ -35,6 +35,8 @@ return new class extends Migration
             $table->integer('money_achievement')->default(0);
             $table->integer('cp_achievement')->default(0);
             $table->integer('cps_achievement')->default(0);
+            $table->integer('dungeon_achievement')->default(0);
+            $table->integer('dungeon_lvl')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
