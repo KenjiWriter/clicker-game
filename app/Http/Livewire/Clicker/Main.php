@@ -13,7 +13,10 @@ class Main extends Component
 
     public function money_convertion($num, $precision = 1)
     {
-        if ($num > 1000) {
+        if ($num < 1000){
+            $num_format = number_format($num, $precision);
+            $suffix = '';
+        } else if($num > 1000) {
             $num_format = number_format($num / 1000, $precision);
             $suffix = 'k';
         } else if ($num > 1000000) {
