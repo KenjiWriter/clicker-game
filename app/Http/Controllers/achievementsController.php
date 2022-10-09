@@ -127,6 +127,30 @@ class achievementsController extends Controller
         return $data;
     }
 
+    public function level_achievement($achievement_stage)
+    {
+        switch($achievement_stage) {
+            case(0):
+                $level_achievement_needed = 10;
+                $level_achievement_reward = 5000;
+                break;
+            case(1):
+                $level_achievement_needed = 50;
+                $level_achievement_reward = 10000;
+                break;
+            case(2):
+                $level_achievement_needed = 100;
+                $level_achievement_reward = 50000;
+                break;
+            case(3):
+                $level_achievement_needed = 200;
+                $level_achievement_reward = 100000;
+                break;
+        }
+        $data = ['level_achievement_needed' => $level_achievement_needed, 'level_achievement_reward' => $level_achievement_reward];
+        return $data;
+    }
+
     public function index()
     {
         $user = User::find(auth()->user()->id);
@@ -155,6 +179,11 @@ class achievementsController extends Controller
         $dungeon_achievement_needed = $dungeon_achievement_values['dungeon_achievement_needed'];
         $dungeon_achievement_reward = $dungeon_achievement_values['dungeon_achievement_reward'];
 
+        $level_achievement = $user->level_achievement;
+        $level_achievement_values = $this->level_achievement($level_achievement);
+        $level_achievement_needed = $level_achievement_values['level_achievement_needed'];
+        $level_achievement_reward = $level_achievement_values['level_achievement_reward'];
+
         return view('achievements.index', [
             'click_achievement' => $click_achievement,
             'click_achievement_needed' => $click_achievement_needed,
@@ -180,6 +209,11 @@ class achievementsController extends Controller
             'dungeon_achievement_needed' => $dungeon_achievement_needed,
             'dungeon' => $user->dungeon_lvl-1,
             'dungeon_achievement_reward' => $dungeon_achievement_reward,
+
+            'level_achievement' => $level_achievement,
+            'level_achievement_needed' => $level_achievement_needed,
+            'level' => $user->level,
+            'level_achievement_reward' => $level_achievement_reward,
         ]);
     }
 
@@ -261,7 +295,7 @@ class achievementsController extends Controller
                 $dungeon_achievement_values = $this->dungeon_achievement($dungeon_achievement);
                 $dungeon_achievement_needed = $dungeon_achievement_values['dungeon_achievement_needed'];
                 $dungeon_achievement_reward = $dungeon_achievement_values['dungeon_achievement_reward'];
-                if($user->money_per_time >= $dungeon_achievement_needed) {
+                if($user->dungeon_lvl >= $dungeon_achievement_needed) {
                     $user->dungeon_achievement += 1;
                     $user->click_power += $dungeon_achievement_reward;
                     $user->save();
@@ -271,6 +305,23 @@ class achievementsController extends Controller
                 }
             } else {
                 return back()->with('message', "You already completed all dungeon achivments!");
+            }
+        } elseif ($reward === 'level') {
+            $level_achievement = $user->level_achievement; 
+            if($level_achievement != 4) {
+                $level_achievement_values = $this->level_achievement($level_achievement);
+                $level_achievement_needed = $level_achievement_values['level_achievement_needed'];
+                $level_achievement_reward = $level_achievement_values['level_achievement_reward'];
+                if($user->level >= $level_achievement_needed) {
+                    $user->level_achievement += 1;
+                    $user->money += $level_achievement_reward;
+                    $user->save();
+                    return back();
+                } else {
+                    return back()->with('message', "You don't have a high enough level!");
+                }
+            } else {
+                return back()->with('message', "You already completed all level achivments!");
             }
         }
     }

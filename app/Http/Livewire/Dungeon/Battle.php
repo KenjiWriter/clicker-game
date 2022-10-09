@@ -17,10 +17,13 @@ class Battle extends Component
         $monster_hp -= auth()->user()->click_power;
         session()->put('monster_hp', $monster_hp);
         if($monster_hp <= 0) {
+            $user = User::find(auth()->user()->id);
+            if($user->dungeon_lvl != $this->monster->floor) return false;
             session()->flash('message', "sucess");
             $user = User::find(auth()->user()->id);
             $user->money += $this->monster->reward;
             $user->dungeon_lvl += 1;
+            $user->exp += $this->monster->exp;
             $user->save();
             session()->forget('time');
             session()->forget('monster_hp');

@@ -25,13 +25,21 @@
                         <div class="flex-grow border-t border-gray-400"></div>
                     </div>
                     <span class="text-2xl text-lime-700">{{ $monster[0]->name }}</span> <br>
-                    <span class="text-2xl text-lime-700">{{ $monster[0]->hp }}HP</span> <br>
-                    <span class="text-2xl text-lime-700">{{ $monster[0]->reward }}$</span>
+                    <span class="text-2xl text-lime-700">{{ $monster[0]->hp }}HP</span> <br> <br>
+                    <span class="text-2xl text-lime-700">{{ $monster[0]->reward }}$</span><br>
+                    <span class="text-2xl text-lime-700">{{ $monster[0]->exp }}exp</span>
                     <br> <br>
-                    <form action="{{ route('dungeon.battle') }}" method="POST">
-                        @csrf
-                        <input type="submit" value="Enter" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    </form>
+                    @if (auth()->user()->level >= $monster[0]->req_lvl)
+                        <form action="{{ route('dungeon.battle') }}" method="POST">
+                            @csrf
+                            <input type="submit" value="Enter" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        </form>
+                    @else
+                        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed">
+                            Enter
+                        </button> <br>
+                        <span class="text-red-700 text-base font-bold">(To enter this floor you need at least be level {{ $monster[0]->req_lvl }})</span>
+                    @endif
                 </div>
             </div>
         </div>

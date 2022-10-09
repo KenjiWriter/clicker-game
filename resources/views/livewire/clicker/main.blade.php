@@ -1,5 +1,14 @@
 <div class="content-center">
     Money: {{ $money }} <br>
+    <span>LVL {{ $level }}</span> <br>
+    <?php 
+        $exp_percentages = round(($exp/$exp_needed)*100, 0);
+    ?>
+    <div class="w-full bg-gray-200 rounded-full">
+        <div class="bg-green-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-l-full" style="width: {{ $exp_percentages }}%"> {{ $exp_percentages }}%</div>
+    </div>
+    <span>{{ $exp }}/{{ $exp_needed }}</span>
+    <br><br>
     <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" wire:click="clickFunction">CLICK ME</button> <br>
     <small class="text-base font-light leading-relaxed mt-0 mb-4 text-green-800">
         @if ($clicker_skill_status == true)

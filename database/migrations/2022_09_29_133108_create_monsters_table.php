@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->integer('hp');
             $table->integer('reward');
+            $table->integer('exp');
+            $table->integer('req_lvl');
             $table->timestamps();
         });
     }

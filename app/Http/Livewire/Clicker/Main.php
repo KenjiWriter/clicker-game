@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class Main extends Component
 {
-    public $click_power, $money, $money_per_time, $clicker_timer,
+    public $click_power, $money, $money_per_time, $clicker_timer, $level, $exp, $exp_needed,
             $clicker_skill_multiplier, $pasive_skill_multiplier, $clicker_skill_lvl, $pasive_skill_lvl, $clicker_skill_status = false, $pasive_skill_status = false;
     public function clickFunction()
     {
@@ -16,6 +16,11 @@ class Main extends Component
             $this->click_power *= $this->clicker_skill_multiplier;
         }
         $user = User::find(auth()->user()->id);
+        $rand = mt_rand(1,100);
+        if($rand <= 20) {
+            $rand_exp = mt_rand(1,3);
+            $user->exp += $rand_exp;
+        }
         $user->money += $this->click_power;
         $user->total_clicks += 1;
         $user->total_money += $this->click_power;
@@ -27,6 +32,11 @@ class Main extends Component
             $this->money_per_time *= $this->pasive_skill_multiplier;
         }
         $user = User::find(auth()->user()->id);
+        $rand = mt_rand(1,100);
+        if($rand <= 5) {
+            $rand_exp = mt_rand(1,3);
+            $user->exp += $rand_exp;
+        }
         $user->money += $this->money_per_time;
         $user->total_money += $this->money_per_time;
         $user->save();
@@ -100,6 +110,20 @@ class Main extends Component
         $this->money = $user->money;
         $this->money_per_time = $user->money_per_time;
         $this->clicker_timer = $user->clicker_timer;
+        $this->level = $user->level;
+        $this->exp = $user->exp;
+
+        if($user->level <= 10) {
+            $this->exp_needed = $user->level*10;
+        } else {
+            $this->exp_needed = $user->level*8.5;
+        }
+        
+        while($user->exp >= $this->exp_needed) {
+            $user->exp -= $this->exp_needed;
+            $user->level += 1;
+            $user->save();
+        }
 
         $this->clicker_skill_lvl = $user->click_skill;
         $this->pasive_skill_lvl = $user->time_skill;
