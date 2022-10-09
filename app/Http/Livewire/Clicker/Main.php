@@ -10,6 +10,31 @@ class Main extends Component
 {
     public $click_power, $money, $money_per_time, $clicker_timer, $level, $exp, $exp_needed,
             $clicker_skill_multiplier, $pasive_skill_multiplier, $clicker_skill_lvl, $pasive_skill_lvl, $clicker_skill_status = false, $pasive_skill_status = false;
+
+    public function money_convertion($num, $precision = 1)
+    {
+        if ($num > 1000) {
+            $num_format = number_format($num / 1000, $precision);
+            $suffix = 'k';
+        } else if ($num > 1000000) {
+            $num_format = number_format($num / 1000000, $precision);
+            $suffix = 'm';
+        } else if ($num > 1000000000) {
+            $num_format = number_format($num / 1000000000, $precision);
+            $suffix = 'b';
+        } else if ($num > 1000000000000) {
+            $num_format = number_format($num / 1000000000000, $precision);
+            $suffix = 't';
+        } else if ($num > 1000000000000000) {
+            $num_format = number_format($num / 1000000000000000, $precision);
+            $suffix = 'Qa';
+        } else if ($num > 1000000000000000000) {
+            $num_format = number_format($num / 1000000000000000000, $precision);
+            $suffix = 'Qi';
+        }
+        return $num_format.$suffix;
+    }
+
     public function clickFunction()
     {
         if($this->clicker_skill_status == true) {
@@ -107,7 +132,7 @@ class Main extends Component
     {
         $user = User::find(auth()->user()->id);
         $this->click_power = $user->click_power;
-        $this->money = $user->money;
+        $this->money = $this->money_convertion($user->money);
         $this->money_per_time = $user->money_per_time;
         $this->clicker_timer = $user->clicker_timer;
         $this->level = $user->level;

@@ -13,6 +13,30 @@ class Shop extends Component
             $ac_timer_lvl, $ac_timer_price, $upgrade_message,
             $clicker_skill_lvl, $pasive_skill_lvl, $clicker_skill_multiplier, $pasive_skill_multiplier, $clicker_skill_price, $pasive_skill_price;
 
+    public function money_convertion($num, $precision = 1)
+    {
+        if ($num > 1000) {
+            $num_format = number_format($num / 1000, $precision);
+            $suffix = 'k';
+        } else if ($num > 1000000) {
+            $num_format = number_format($num / 1000000, $precision);
+            $suffix = 'm';
+        } else if ($num > 1000000000) {
+            $num_format = number_format($num / 1000000000, $precision);
+            $suffix = 'b';
+        } else if ($num > 1000000000000) {
+            $num_format = number_format($num / 1000000000000, $precision);
+            $suffix = 't';
+        } else if ($num > 1000000000000000) {
+            $num_format = number_format($num / 1000000000000000, $precision);
+            $suffix = 'Qa';
+        } else if ($num > 1000000000000000000) {
+            $num_format = number_format($num / 1000000000000000000, $precision);
+            $suffix = 'Qi';
+        }
+        return $num_format.$suffix;
+    }
+
     public function cursor($grade)
     {
         $user = User::find(auth()->user()->id);
@@ -144,7 +168,7 @@ class Shop extends Component
     {
         $user = User::find(auth()->user()->id);
         $this->click_power = $user->click_power;
-        $this->money = $user->money;
+        $this->money = $this->money_convertion($user->money);
         $this->b_cursor = $user->b_cursor;
         $this->s_cursor = $user->s_cursor;
         $this->g_cursor = $user->g_cursor;
