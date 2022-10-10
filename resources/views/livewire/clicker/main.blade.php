@@ -4,7 +4,7 @@
     <?php 
         $exp_percentages = round(($exp/$exp_needed)*100, 0);
     ?>
-    <div class="w-full bg-gray-200 rounded-full">
+    <div title="clicking: 20% | auto clicking: 5%" class="w-full bg-gray-200 rounded-full">
         <div class="bg-green-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-l-full" style="width: {{ $exp_percentages }}%"> {{ $exp_percentages }}%</div>
     </div>
     <span>{{ $exp }}/{{ $exp_needed }}</span>
