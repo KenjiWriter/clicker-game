@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dungeonController;
+use App\Http\Controllers\rankingController;
 use App\Http\Controllers\achievementsController;
 
 Route::get('/', function () {
@@ -21,5 +22,7 @@ Route::post('/achievements/{achivement}', [achievementsController::class, 'rewar
 
 Route::get('/dungeon', [dungeonController::class, 'index'])->middleware(['auth'])->name('dungeon');
 Route::post('/dungeon/battle', [dungeonController::class, 'battle'])->middleware(['auth'])->name('dungeon.battle');
+
+Route::get('/ranking', [rankingController::class, 'index'])->middleware(['auth'])->name('ranking.index');
 
 require __DIR__.'/auth.php';
