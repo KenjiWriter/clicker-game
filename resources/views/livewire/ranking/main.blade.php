@@ -38,7 +38,14 @@
                             {{ $user->name }}
                         </td>
                         <td class="py-4 px-6 @if ($top+1 == 1) text-yellow-400 font-extrabold @elseif($top+1 == 2) text-slate-600 font-extrabold @elseif($top+1 == 3) text-orange-900 font-extrabold @else text-gray-900 font-medium @endif">
-                            {{ $user->$score }}
+                            @if ($score == 'total_money' || $score == 'total_clicks')
+                                <?php 
+                                    $converted_score = $this->num_convertion($user->$score);
+                                ?>
+                                {{ $converted_score }}
+                            @else
+                                {{ $user->$score }}
+                            @endif
                         </td>
                         <td>
                             <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed">
