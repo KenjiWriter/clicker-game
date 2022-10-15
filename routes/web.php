@@ -23,6 +23,6 @@ Route::post('/achievements/{achivement}', [achievementsController::class, 'rewar
 Route::get('/dungeon', [dungeonController::class, 'index'])->middleware(['auth'])->name('dungeon');
 Route::post('/dungeon/battle', [dungeonController::class, 'battle'])->middleware(['auth'])->name('dungeon.battle');
 
-Route::get('/ranking', [rankingController::class, 'index'])->middleware(['auth'])->name('ranking.index');
+Route::get('/ranking', [rankingController::class, 'index'])->middleware(['auth'])->name('ranking');
 
 require __DIR__.'/auth.php';
